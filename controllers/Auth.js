@@ -66,8 +66,8 @@ exports.login = async (req , res)=>{
             });
         }
 
-        //check kro user exist karta hai ya nai
-        const user =  await User.findOne({email});
+        //check kro user exist karta hai ya nahi
+        let user =  await User.findOne({email});
         //agar email nahi match hoti toh , if not a registered user
         if(!user){
             return res.status(401).json({
@@ -82,8 +82,8 @@ exports.login = async (req , res)=>{
             id: user._id,
             role: user.role
         }
-
-        //verify password and generate a JWT token 
+        //agar user exist karta hai toh verify kro password
+        //verify password and generate a JWT token to transfer the email , user id , role as a token in every response to client
         //to verify password we will use .compare method and pass request body password and hashed password to compare it and verify it
         if(await bcrypt.compare(password , user.password)){
 
@@ -91,11 +91,12 @@ exports.login = async (req , res)=>{
             //creating token
             let token = jwt.sign( payload , secretKey , { expiresIn:"2h"});
 
-            //jo info data base m se fetch kari hai aur user object m daldi
-            //usme token naam ki new entry daldi
+            //jo info data base se fetch karke dali thi user variable mie ,  us user variable ko object m convert kia toObject() se aur
+            //usme token naam ki new entry daldi jo token uppr create kia tha
+            user = user.toObject();
             user.token = token;
-            //aur uss user object m se password hta dia , data base m se nai htaya password jo user fetch kia hai db m se us se htaya hai kyu ki usko hum as a response send karngy toh password nai hona chaie 
-            user.password = undefined;
+            //aur uss user object m se password hta dia , data base m se nai htaya password jo user fetch kia hai db m se us se htaya hai kyu ki usko hum as a response send karngy client par toh password nai hona chaie security purposes
+            user.password = undefined; 
 
             const options = {
                 //3 din m expire hojaega cookie 
@@ -103,8 +104,10 @@ exports.login = async (req , res)=>{
                 //client side p access nai kar skty cookie ko
                 httpOnly: true,
             }
-            //creating cookie
-            res.cookie("token", token , options).status(200).json({
+
+            //creating cookie to send cookie as response and in cookie we are sending the token as a data
+            //  we can send the token directly as well but to understand the cookie concept we had created one
+            res.cookie("akshatCookie", token , options).status(200).json({
                 success:true,
                 token,
                 user,
