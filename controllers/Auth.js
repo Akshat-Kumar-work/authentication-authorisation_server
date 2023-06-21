@@ -66,7 +66,8 @@ exports.login = async (req , res)=>{
             });
         }
 
-        //check kro user exist karta hai ya nahi login k lie
+        //check kro user exist karta hai ya nahi, login k lie 
+        
         let user =  await User.findOne({email});
         //agar email nahi match hoti toh , if not a registered user
         if(!user){
@@ -85,7 +86,7 @@ exports.login = async (req , res)=>{
         
         //agar user exist karta hai toh verify kro password
         //verify password and generate a JWT (json web token) to transfer the email , user id , role as a token in every response to client 
-        //to verify password we will use .compare method and pass password present in request body and hashed password to compare it and verify it
+        //to verify password we will use .compare method and pass, password present in request body and hashed password to compare it and verify it
         if(await bcrypt.compare(password , user.password)){
 
             //if password matched , agar password match hojata hai toh token create kro

@@ -17,6 +17,8 @@
         }
 
         //verifying the token from verify method present in jwt library BY passing token and secret key
+        //verify method first check the validity of token by matching or comparing the jwt_secret key if key matched
+        //it decode the token and return the payload
         try{
             const decode = jwt.verify(token , process.env.JWT_secret);
             console.log(decode);
@@ -30,6 +32,7 @@
                 message:"token is invalid",
             })
         }
+
         //this next method is used to go to the next middleware
         next();
     }
