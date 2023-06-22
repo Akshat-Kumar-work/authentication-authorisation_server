@@ -51,6 +51,7 @@ exports.signup = async(req , res)=>{
 }
 
 
+
 //login route handler
 exports.login = async (req , res)=>{
     try{
@@ -91,7 +92,7 @@ exports.login = async (req , res)=>{
 
             //if password matched , agar password match hojata hai toh token create kro
             //creating token
-            let token = jwt.sign( payload , secretKey , { expiresIn:"2h"});
+            let token = jwt.sign( payload , secretKey , { expiresIn:"3d"});
 
             //jo info data base se fetch karke dali thi user variable mie ,  us user variable ko object m convert kia toObject() se aur
             //usme token naam ki new entry daldi jo token uppr create kia tha
@@ -103,14 +104,20 @@ exports.login = async (req , res)=>{
             //creating options for cookie
             const options = {
                 //3 din m expire hojaega cookie 
-                expires: new Date(Date.now() + 3* 24 * 60 *60 *1000),
+                expires: new Date(Date.now() + 3* 24 * 60 * 60 * 1000) ,
                 //client side p access nai kar skty cookie ko
                 httpOnly: true,
             }
 
             //creating cookie to send cookie as response and in cookie we are sending the token as a data
             //  we can send the token directly as well but to understand the cookie concept we had created one
-            res.cookie("akshatCookie", token , options).status(200).json({
+            //  res.cookie("newlogincookie",token,options).status(200).json({
+            //     success:true,
+            //     token,
+            //     user,
+            //     message:"user logged in succesfully"
+            // })
+            res.status(200).json({
                 success:true,
                 token,
                 user,

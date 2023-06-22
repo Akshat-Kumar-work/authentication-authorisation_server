@@ -7,6 +7,9 @@ const PORT = process.env.PORT || 4000;
 //to parse the json data into js object
 server.use(express.json());
 
+const cookiesParser = require("cookie-parser");
+server.use(cookiesParser());
+
 const routes = require("./routes/mainRoutes")
 server.use("/api/v1",routes);
 
