@@ -111,18 +111,13 @@ exports.login = async (req , res)=>{
 
             //creating cookie to send cookie as response and in cookie we are sending the token as a data
             //  we can send the token directly as well but to understand the cookie concept we had created one
-            //  res.cookie("newlogincookie",token,options).status(200).json({
-            //     success:true,
-            //     token,
-            //     user,
-            //     message:"user logged in succesfully"
-            // })
-            res.status(200).json({
+             res.cookie("newlogincookie",token,options).status(200).json({
                 success:true,
                 token,
                 user,
                 message:"user logged in succesfully"
             })
+        
         }
         else{
             //when password does not match

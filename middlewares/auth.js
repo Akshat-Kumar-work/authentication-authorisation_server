@@ -7,9 +7,9 @@
 
         //extract jwt token , to extract token we have three ways -> from header , from req.body if token is inserted into the req and from cookies too
         //extracting from req body or cookies or header
-        //req.body.token|| req.cookies.token || req.header("Authorization".replace("Bearer ",""));
-        const token =  req.header("Authorization").replace("Bearer ","");
-        console.log(token)
+       
+        const token =  req.body.token|| req.cookies.newlogincookie || req.header("Authorization").replace("Bearer ","");
+       
         //if token not available
         if(!token){
             return res.status(401).json({
