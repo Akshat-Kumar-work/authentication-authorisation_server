@@ -25,7 +25,7 @@
             const decode = jwt.verify(token , process.env.JWT_secret);
             console.log(decode);
 
-            //putting decoded token which contain the payload info into request for further authorization for student and admin
+            //putting decoded token which contain the payload info into request for further authorization for student and admin middleware 
             req.user = decode;
         }
         catch(err){
