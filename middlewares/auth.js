@@ -26,6 +26,7 @@
             console.log(decode);
 
             //putting decoded token which contain the payload info into request for further authorization for student and admin middleware 
+            //jo payload mila hai token ko decode karke vo , req ki body m user naam k variable k andar daldia fr student or admin authorization m payload m se role nikal kr use krngy
             req.user = decode;
         }
         catch(err){
